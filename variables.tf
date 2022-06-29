@@ -26,6 +26,7 @@ variable "cloudwatch_log_exports" {
   default = ["postgres"]
 }
 variable "db_parameter_group_suffix" {
+  # need these defaults to not change existing db parameter groups
   default = {
     name_suffix = "aurora-postgres13-cluster-parameter-group"
     family_suffix = "postgresql13"
