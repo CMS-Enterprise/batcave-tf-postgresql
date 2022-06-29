@@ -47,15 +47,15 @@ module "aurora" {
 }
 
 resource "aws_db_parameter_group" "db_parameter_group" {
-  name        = "${var.name}-aurora-db-${var.engine}-parameter-group"
-  family      = "aurora-${var.engine}"
-  description = "${var.name}-aurora-db-${var.engine}-parameter-group"
+  name        = "${var.name}-${var.db_parameter_group_suffix.name_suffix}"
+  family      = "aurora-${var.db_parameter_group_suffix.family_suffix}"
+  description = "${var.name}-${var.db_parameter_group_suffix.name_suffix}"
   tags        = var.tags
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
-  name        = "${var.name}-aurora-${var.engine}-cluster-parameter-group"
-  family      = "aurora-${var.engine}"
-  description = "${var.name}-aurora-${var.engine}-cluster-parameter-group"
+  name        = "${var.name}-${var.db_parameter_group_suffix.name_suffix}"
+  family      = "aurora-${var.db_parameter_group_suffix.family_suffix}"
+  description = "${var.name}-${var.db_parameter_group_suffix.name_suffix}"
   tags        = var.tags
 }
 

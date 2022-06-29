@@ -25,6 +25,13 @@ variable "cloudwatch_log_exports" {
   type    = list(string)
   default = ["postgres"]
 }
+variable "db_parameter_group_suffix" {
+  default = {
+    name_suffix = "aurora-postgres13-cluster-parameter-group"
+    family_suffix = "postgresql13"
+  }
+
+}
 variable "tags" {
   default = {
     Owner = "Batcave"
