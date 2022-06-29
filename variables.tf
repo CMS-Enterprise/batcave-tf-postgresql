@@ -2,7 +2,9 @@ variable "name" {}
 variable "engine" {
   default = "aurora-postgresql"
 }
-variable "engine_version" {}
+variable "engine_version" {
+  default = "13.4"
+}
 variable "publicly_accessible" {
   default = "false"
 }
@@ -19,7 +21,10 @@ variable "allowed_security_groups" {
 
 variable "master_username" {}
 variable "database_name" {}
-
+variable "cloudwatch_log_exports" {
+  type    = list(string)
+  default = ["postgres"]
+}
 variable "tags" {
   default = {
     Owner = "Batcave"

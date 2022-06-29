@@ -1,11 +1,10 @@
-
 module "aurora" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "6.1.4"
 
   name           = var.name
   engine         = var.engine
-  engine_version = "13.4"
+  engine_version = var.engine_version
   instances = {
     1 = {
       instance_class      = "db.r5.xlarge"
@@ -42,21 +41,21 @@ module "aurora" {
 
   db_parameter_group_name         = aws_db_parameter_group.db_parameter_group.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cluster_parameter_group.id
-  enabled_cloudwatch_logs_exports = ["postgresql"]
+  enabled_cloudwatch_logs_exports = var.cloudwatch_log_exports
 
   tags = var.tags
 }
 
 resource "aws_db_parameter_group" "db_parameter_group" {
-  name        = "${var.name}-aurora-db-postgres13-parameter-group"
-  family      = "aurora-postgresql13"
-  description = "${var.name}-aurora-db-postgres13-parameter-group"
+  name        = "${var.name}-aurora-db-${var.engine}-parameter-group"
+  family      = "aurora-${var.engine}"
+  description = "${var.name}-aurora-db-${var.engine}-parameter-group"
   tags        = var.tags
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
-  name        = "${var.name}-aurora-postgres13-cluster-parameter-group"
-  family      = "aurora-postgresql13"
-  description = "${var.name}-aurora-postgres13-cluster-parameter-group"
+  name        = "${var.name}-aurora-${var.engine}-cluster-parameter-group"
+  family      = "aurora-${var.engine}"
+  description = "${var.name}-aurora-${var.engine}-cluster-parameter-group"
   tags        = var.tags
 }
 
@@ -69,10 +68,10 @@ resource "aws_route53_record" "www" {
 }
 
 
-# postgres egress rule for cluster_security_group
+# RDS egress rule for cluster_security_group
 resource "aws_security_group_rule" "db-egress-cluster_security_group" {
   type                     = "egress"
-  description              = "postgres traffic"
+  description              = "RDS traffic"
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
@@ -80,10 +79,10 @@ resource "aws_security_group_rule" "db-egress-cluster_security_group" {
   security_group_id        = var.cluster_security_group_id
 }
 
-# postgres egress rule for worker_security_group
+# RDS egress rule for worker_security_group
 resource "aws_security_group_rule" "db-egress-worker_security_group" {
   type                     = "egress"
-  description              = "postgres traffic"
+  description              = "RDS traffic"
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
@@ -91,10 +90,10 @@ resource "aws_security_group_rule" "db-egress-worker_security_group" {
   security_group_id        = var.worker_security_group_id
 }
 
-# postgres egress rule for cluster_primary_security_group
+# RDS egress rule for cluster_primary_security_group
 resource "aws_security_group_rule" "db-egress-cluster_primary_security_group" {
   type                     = "egress"
-  description              = "postgres traffic"
+  description              = "RDS traffic"
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
