@@ -4,7 +4,7 @@ module "aurora" {
   version = "6.1.4"
 
   name           = var.name
-  engine         = "aurora-postgresql"
+  engine         = var.engine
   engine_version = "13.4"
   instances = {
     1 = {

@@ -1,4 +1,7 @@
 variable "name" {}
+variable "engine" {
+  default = "aurora-postgresql"
+}
 variable "engine_version" {}
 variable "publicly_accessible" {
   default = "false"
