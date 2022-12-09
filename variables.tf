@@ -30,3 +30,38 @@ variable "worker_security_group_id" {}
 variable "cluster_security_group_id" {}
 variable "cluster_primary_security_group_id" {}
 
+variable "db_parameter_group_parameters" {
+  type = list(map(string))
+
+  default = [
+    {
+      name  = "log_destination"
+      value = "csvlog"
+    }, {
+      name  = "log_connections"
+      value = "1"
+    }, {
+      name  = "log_disconnections"
+      value = "1"
+    }, {
+        name  = "log_statement"
+      value = "mod"
+    }, {
+      name  = "rds.force_admin_logging_level"
+      value = "info"
+    }, {
+      name  = "pgaudit.log"
+      value = "ddl, role, write"
+    }
+  ]
+}
+
+variable "db_cluster_parameter_group_parameters" {
+  type = list(map(string))
+
+  default = [{
+      name  = "rds.force_autovacuum_logging_level"
+      value = "warning"
+    }
+  ]
+}
