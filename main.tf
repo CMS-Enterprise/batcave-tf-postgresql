@@ -52,6 +52,7 @@ resource "aws_db_parameter_group" "db_parameter_group" {
   family      = "aurora-postgresql13"
   description = "${var.name}-aurora-db-postgres13-parameter-group"
   tags        = var.tags
+  parameter   = var.db_parameter_group_parameters
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
   name        = "${var.name}-aurora-postgres13-cluster-parameter-group"

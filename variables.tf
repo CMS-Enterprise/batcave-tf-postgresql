@@ -30,3 +30,5 @@ variable "worker_security_group_id" {}
 variable "cluster_security_group_id" {}
 variable "cluster_primary_security_group_id" {}
 
+variable "db_parameter_group_parameters" {}
+
