@@ -44,14 +44,11 @@ variable "db_parameter_group_parameters" {
       name  = "log_disconnections"
       value = "1"
     }, {
-      name  = "log_statement"
+        name  = "log_statement"
       value = "mod"
     }, {
       name  = "rds.force_admin_logging_level"
       value = "info"
-    }, {
-      name  = "force_autovacuum_logging_level"
-      value = "warning"
     }, {
       name  = "pgaudit.log"
       value = "ddl, role, write"
@@ -59,3 +56,12 @@ variable "db_parameter_group_parameters" {
   ]
 }
 
+variable "db_cluster_parameter_group_parameters" {
+  type = list(map(string))
+
+  default = [{
+      name  = "rds.force_autovacuum_logging_level"
+      value = "warning"
+    }
+  ]
+}
