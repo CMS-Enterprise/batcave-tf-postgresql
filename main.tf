@@ -42,7 +42,6 @@ module "aurora" {
 
   db_parameter_group_name         = aws_db_parameter_group.db_parameter_group.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cluster_parameter_group.id
-  db_cluster_parameter_group_parameters = var.db_parameter_group_parameters
   enabled_cloudwatch_logs_exports = ["postgresql"]
 
   tags = var.tags
@@ -52,6 +51,13 @@ resource "aws_db_parameter_group" "db_parameter_group" {
   name        = "${var.name}-aurora-db-postgres13-parameter-group"
   family      = "aurora-postgresql13"
   description = "${var.name}-aurora-db-postgres13-parameter-group"
+  dynamic "parameter" {
+    for_each = var.db_parameter_group_parameters
+    content {
+      name = parameter.value["name"]
+      value = parameter.value["value"]
+    }
+  }
   tags        = var.tags
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
