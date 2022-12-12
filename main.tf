@@ -15,7 +15,7 @@ module "aurora" {
 
   endpoints = {
     static = {
-      identifier = "static-custom-endpt"
+      identifier = "static-custom-endpt-${var.name}"
       type       = "ANY"
     }
   }
