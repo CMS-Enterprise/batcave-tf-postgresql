@@ -1,17 +1,20 @@
 
+locals {
+  # It's unreal that there's no way to dynamically
+  # create a list like this in terraform
+  instance_name_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+}
 module "aurora" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "6.1.4"
 
   name           = var.name
   engine         = "aurora-postgresql"
-  engine_version = "13.4"
-  instances = {
-    1 = {
-      instance_class      = "db.r5.xlarge"
-      publicly_accessible = var.publicly_accessible
-    }
-  }
+  engine_version = var.engine_version
+
+  instances           = { for index in range(var.instance_count) : index + 1 => {} }
+  publicly_accessible = var.publicly_accessible
+  instance_class      = var.instance_class
 
   endpoints = {
     static = {
@@ -54,11 +57,11 @@ resource "aws_db_parameter_group" "db_parameter_group" {
   dynamic "parameter" {
     for_each = var.db_parameter_group_parameters
     content {
-      name = parameter.value["name"]
+      name  = parameter.value["name"]
       value = parameter.value["value"]
     }
   }
-  tags        = var.tags
+  tags = var.tags
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
   name        = "${var.name}-aurora-postgres13-cluster-parameter-group"
@@ -67,15 +70,21 @@ resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
   dynamic "parameter" {
     for_each = var.db_cluster_parameter_group_parameters
     content {
-      name = parameter.value["name"]
+      name  = parameter.value["name"]
       value = parameter.value["value"]
     }
   }
-  tags        = var.tags
+  tags = var.tags
+}
+
+data "aws_route53_zone" "cms_zone" {
+  count        = var.route53_zone_base_domain != "" ? 0 : 1
+  name         = var.hosted_zone_dns
+  private_zone = true
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = var.route53_zone_id
+  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id, ""))
   name    = var.route53_record_name
   type    = "CNAME"
   ttl     = "60"
