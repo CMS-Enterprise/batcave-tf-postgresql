@@ -1,8 +1,5 @@
-
 locals {
-  # It's unreal that there's no way to dynamically
-  # create a list like this in terraform
-  instance_name_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  engine_version_short = split(".", var.engine_version)[0]
 }
 module "aurora" {
   source  = "terraform-aws-modules/rds-aurora/aws"
@@ -12,9 +9,15 @@ module "aurora" {
   engine         = "aurora-postgresql"
   engine_version = var.engine_version
 
-  instances           = { for index in range(var.instance_count) : index + 1 => {} }
+  instances = { for index in range(var.instance_count) : index + 1 =>
+    merge(
+      {},
+      var.instance_identifier_pseudoprefix != "" ? { identifier = "${var.instance_identifier_pseudoprefix}${index + 1}" } : {}
+  ) }
   publicly_accessible = var.publicly_accessible
   instance_class      = var.instance_class
+
+  deletion_protection = var.deletion_protection
 
   endpoints = {
     static = {
@@ -25,7 +28,8 @@ module "aurora" {
 
   vpc_id                  = var.vpc_id
   subnets                 = var.subnets
-  create_db_subnet_group  = true
+  create_db_subnet_group  = var.create_db_subnet_group
+  db_subnet_group_name    = var.subnet_group_name
   create_security_group   = true
   allowed_security_groups = var.allowed_security_groups
   security_group_egress_rules = {
@@ -37,11 +41,12 @@ module "aurora" {
 
   iam_database_authentication_enabled = true
   master_username                     = var.master_username
-  create_random_password              = true
+  create_random_password              = var.create_random_password
   database_name                       = var.database_name
+  backup_retention_period             = var.backup_retention_period
 
   apply_immediately   = true
-  skip_final_snapshot = false
+  skip_final_snapshot = var.skip_final_snapshot
 
   db_parameter_group_name         = aws_db_parameter_group.db_parameter_group.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cluster_parameter_group.id
@@ -51,9 +56,9 @@ module "aurora" {
 }
 
 resource "aws_db_parameter_group" "db_parameter_group" {
-  name        = "${var.name}-aurora-db-postgres13-parameter-group"
-  family      = "aurora-postgresql13"
-  description = "${var.name}-aurora-db-postgres13-parameter-group"
+  name        = "${var.name}-aurora-db-postgres${local.engine_version_short}-parameter-group"
+  family      = "aurora-postgresql${local.engine_version_short}"
+  description = "${var.name}-aurora-db-postgres${local.engine_version_short}-parameter-group"
   dynamic "parameter" {
     for_each = var.db_parameter_group_parameters
     content {
@@ -64,9 +69,9 @@ resource "aws_db_parameter_group" "db_parameter_group" {
   tags = var.tags
 }
 resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
-  name        = "${var.name}-aurora-postgres13-cluster-parameter-group"
-  family      = "aurora-postgresql13"
-  description = "${var.name}-aurora-postgres13-cluster-parameter-group"
+  name        = "${var.name}-aurora-postgres${local.engine_version_short}-cluster-parameter-group"
+  family      = "aurora-postgresql${local.engine_version_short}"
+  description = "${var.name}-aurora-postgres${local.engine_version_short}-cluster-parameter-group"
   dynamic "parameter" {
     for_each = var.db_cluster_parameter_group_parameters
     content {
@@ -78,13 +83,13 @@ resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
 }
 
 data "aws_route53_zone" "cms_zone" {
-  count        = var.route53_zone_base_domain != "" ? 0 : 1
-  name         = var.hosted_zone_dns
+  count        = var.route53_zone_base_domain != "" ? 1 : 0
+  name         = var.route53_zone_base_domain
   private_zone = true
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id, ""))
+  zone_id = coalesce(var.route53_zone_id, data.aws_route53_zone.cms_zone[0].zone_id)
   name    = var.route53_record_name
   type    = "CNAME"
   ttl     = "60"
