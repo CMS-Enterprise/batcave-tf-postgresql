@@ -14,7 +14,7 @@ module "aurora" {
       {},
       var.instance_identifier_pseudoprefix != "" ? { identifier = "${var.instance_identifier_pseudoprefix}${index + 1}" } : {}
   ) }
-  publicly_accessible = var.publicly_accessible
+  publicly_accessible = false
   instance_class      = var.instance_class
 
   deletion_protection = var.deletion_protection
