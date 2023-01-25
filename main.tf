@@ -89,7 +89,7 @@ data "aws_route53_zone" "cms_zone" {
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = coalesce(var.route53_zone_id, data.aws_route53_zone.cms_zone[0].zone_id)
+  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id,""))
   name    = var.route53_record_name
   type    = "CNAME"
   ttl     = "60"
