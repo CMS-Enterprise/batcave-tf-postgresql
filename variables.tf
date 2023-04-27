@@ -136,3 +136,5 @@ variable "skip_final_snapshot" {
   type    = bool
   default = false
 }
+
+variable "snapshot_identifier" {}
