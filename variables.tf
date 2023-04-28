@@ -137,4 +137,8 @@ variable "skip_final_snapshot" {
   default = false
 }
 
-variable "snapshot_identifier" {}
+variable "snapshot_identifier" {
+  default = null
+  type = string
+  description = "If specified creates this database from a snapshot. Default is null"
+}
