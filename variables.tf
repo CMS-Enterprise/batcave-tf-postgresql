@@ -64,7 +64,7 @@ variable "db_parameter_group_parameters" {
       value = "info"
       }, {
       name  = "pgaudit.log"
-      value = "ddl, role, write"
+      value = "ddl,role,write"
     }
   ]
 }
