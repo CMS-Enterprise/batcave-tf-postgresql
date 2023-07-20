@@ -1,11 +1,11 @@
 variable "name" {}
 variable "engine_version" {
-  default = "13.4"
+  default = "13"
 }
 
 variable "auto_minor_version_upgrade" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "vpc_id" {}
@@ -64,7 +64,7 @@ variable "db_parameter_group_parameters" {
       value = "info"
       }, {
       name  = "pgaudit.log"
-      value = "ddl, role, write"
+      value = "ddl,role,write"
     }
   ]
 }
@@ -143,7 +143,7 @@ variable "skip_final_snapshot" {
 }
 
 variable "snapshot_identifier" {
-  default = null
-  type = string
+  default     = null
+  type        = string
   description = "If specified creates this database from a snapshot. Default is null.  Be warned that modifying this value on an already created database _WILL_ destroy/recreate the whole cluster."
 }
