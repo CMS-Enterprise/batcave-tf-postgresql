@@ -5,9 +5,9 @@ module "aurora" {
   source  = "terraform-aws-modules/rds-aurora/aws"
   version = "6.1.4"
 
-  name           = var.name
-  engine         = "aurora-postgresql"
-  engine_version = var.engine_version
+  name                       = var.name
+  engine                     = "aurora-postgresql"
+  engine_version             = var.engine_version
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   instances = { for index in range(var.instance_count) : index + 1 =>
@@ -54,7 +54,7 @@ module "aurora" {
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cluster_parameter_group.id
   enabled_cloudwatch_logs_exports = ["postgresql"]
 
-  tags = var.tags
+  tags                  = var.tags
   copy_tags_to_snapshot = true
 }
 
@@ -92,7 +92,7 @@ data "aws_route53_zone" "cms_zone" {
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id,""))
+  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id, ""))
   name    = var.route53_record_name
   type    = "CNAME"
   ttl     = "60"
