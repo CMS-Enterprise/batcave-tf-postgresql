@@ -1,11 +1,11 @@
 variable "name" {}
 variable "engine_version" {
-  default = "13.4"
+  default = "13"
 }
 
 variable "auto_minor_version_upgrade" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "vpc_id" {}
