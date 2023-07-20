@@ -8,6 +8,7 @@ module "aurora" {
   name           = var.name
   engine         = "aurora-postgresql"
   engine_version = var.engine_version
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   instances = { for index in range(var.instance_count) : index + 1 =>
     merge(

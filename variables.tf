@@ -3,6 +3,11 @@ variable "engine_version" {
   default = "13.4"
 }
 
+variable "auto_minor_version_upgrade" {
+  type    = bool
+  default = false
+}
+
 variable "vpc_id" {}
 
 variable "subnets" {
