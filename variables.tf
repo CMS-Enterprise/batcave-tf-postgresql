@@ -18,6 +18,11 @@ variable "allowed_security_groups" {
   type = list(string)
 }
 
+variable "security_group_allowed_cidrs" {
+  type    = list(string)
+  default = []
+}
+
 variable "master_username" {}
 variable "database_name" {}
 

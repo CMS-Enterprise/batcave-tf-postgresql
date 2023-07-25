@@ -33,6 +33,7 @@ module "aurora" {
   db_subnet_group_name    = var.subnet_group_name
   create_security_group   = true
   allowed_security_groups = var.allowed_security_groups
+  allowed_cidr_blocks     = var.security_group_allowed_cidrs
   security_group_egress_rules = {
     to_cidrs = {
       cidr_blocks = ["0.0.0.0/0"]
