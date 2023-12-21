@@ -116,20 +116,6 @@ variable "deletion_protection" {
   default = false
 }
 
-variable "maintenance_window" {
-  type    = string
-  default = "mon:05:00-mon:06:00"
-}
-
-variable "database_users" {
-  description = "A list of maps with user_name and secrets_manager_name to trigger the creation of aws secretsmanager secrets"
-  type = list(object({
-    user_name            = string
-    secrets_manager_name = string
-  }))
-  default = []
-}
-
 variable "create_random_password" {
   description = "Determines whether to create random password for RDS primary cluster"
   type        = bool
