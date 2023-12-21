@@ -3,13 +3,16 @@
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.61.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.61.0 |
 
 ## Modules
 
@@ -36,21 +39,21 @@ No requirements.
 | <a name="input_allowed_security_groups"></a> [allowed\_security\_groups](#input\_allowed\_security\_groups) | n/a | `list(string)` | n/a | yes |
 | <a name="input_auto_minor_version_upgrade"></a> [auto\_minor\_version\_upgrade](#input\_auto\_minor\_version\_upgrade) | n/a | `bool` | `true` | no |
 | <a name="input_backup_retention_period"></a> [backup\_retention\_period](#input\_backup\_retention\_period) | The days to retain backups for. Default 7 | `number` | `7` | no |
-| <a name="input_cluster_primary_security_group_id"></a> [cluster\_primary\_security\_group\_id](#input\_cluster\_primary\_security\_group\_id) | n/a | `any` | n/a | yes |
-| <a name="input_cluster_security_group_id"></a> [cluster\_security\_group\_id](#input\_cluster\_security\_group\_id) | n/a | `any` | n/a | yes |
+| <a name="input_cluster_primary_security_group_id"></a> [cluster\_primary\_security\_group\_id](#input\_cluster\_primary\_security\_group\_id) | n/a | `string` | n/a | yes |
+| <a name="input_cluster_security_group_id"></a> [cluster\_security\_group\_id](#input\_cluster\_security\_group\_id) | n/a | `string` | n/a | yes |
 | <a name="input_create_db_subnet_group"></a> [create\_db\_subnet\_group](#input\_create\_db\_subnet\_group) | n/a | `bool` | `true` | no |
 | <a name="input_create_random_password"></a> [create\_random\_password](#input\_create\_random\_password) | Determines whether to create random password for RDS primary cluster | `bool` | `true` | no |
-| <a name="input_database_name"></a> [database\_name](#input\_database\_name) | n/a | `any` | n/a | yes |
+| <a name="input_database_name"></a> [database\_name](#input\_database\_name) | n/a | `string` | n/a | yes |
 | <a name="input_db_cluster_parameter_group_parameters"></a> [db\_cluster\_parameter\_group\_parameters](#input\_db\_cluster\_parameter\_group\_parameters) | n/a | `list(map(string))` | <pre>[<br>  {<br>    "name": "rds.force_autovacuum_logging_level",<br>    "value": "warning"<br>  }<br>]</pre> | no |
 | <a name="input_db_parameter_group_parameters"></a> [db\_parameter\_group\_parameters](#input\_db\_parameter\_group\_parameters) | n/a | `list(map(string))` | <pre>[<br>  {<br>    "name": "log_destination",<br>    "value": "csvlog"<br>  },<br>  {<br>    "name": "log_connections",<br>    "value": "1"<br>  },<br>  {<br>    "name": "log_disconnections",<br>    "value": "1"<br>  },<br>  {<br>    "name": "log_statement",<br>    "value": "mod"<br>  },<br>  {<br>    "name": "rds.force_admin_logging_level",<br>    "value": "info"<br>  },<br>  {<br>    "name": "pgaudit.log",<br>    "value": "ddl,role,write"<br>  }<br>]</pre> | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | n/a | `bool` | `false` | no |
-| <a name="input_engine_version"></a> [engine\_version](#input\_engine\_version) | n/a | `string` | `"14"` | no |
+| <a name="input_engine_version"></a> [engine\_version](#input\_engine\_version) | The engine version to use | `string` | `"14"` | no |
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | Instance classes for instances created under the cluster | `string` | `"db.r5.xlarge"` | no |
 | <a name="input_instance_count"></a> [instance\_count](#input\_instance\_count) | How many instances to create under the cluster | `number` | `1` | no |
 | <a name="input_instance_identifier_pseudoprefix"></a> [instance\_identifier\_pseudoprefix](#input\_instance\_identifier\_pseudoprefix) | A string prefix for the database instance names where the instance number will be appended. This is not to be confused with the 'name\_prefix' field.  In general, leave this empty unless you're importing existing resources | `string` | `""` | no |
-| <a name="input_master_username"></a> [master\_username](#input\_master\_username) | n/a | `any` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | n/a | `any` | n/a | yes |
-| <a name="input_route53_record_name"></a> [route53\_record\_name](#input\_route53\_record\_name) | n/a | `any` | n/a | yes |
+| <a name="input_master_username"></a> [master\_username](#input\_master\_username) | n/a | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | The name of the RDS cluster | `string` | n/a | yes |
+| <a name="input_route53_record_name"></a> [route53\_record\_name](#input\_route53\_record\_name) | n/a | `string` | n/a | yes |
 | <a name="input_route53_zone_base_domain"></a> [route53\_zone\_base\_domain](#input\_route53\_zone\_base\_domain) | If route53\_zone\_id is an empty string, this variable is used to lookup the r53 zone dynamicaly | `string` | `""` | no |
 | <a name="input_route53_zone_id"></a> [route53\_zone\_id](#input\_route53\_zone\_id) | n/a | `string` | `""` | no |
 | <a name="input_security_group_allowed_cidrs"></a> [security\_group\_allowed\_cidrs](#input\_security\_group\_allowed\_cidrs) | n/a | `list(string)` | `[]` | no |
@@ -59,8 +62,8 @@ No requirements.
 | <a name="input_subnet_group_name"></a> [subnet\_group\_name](#input\_subnet\_group\_name) | Subnet group name, overriding the default of cluster\_name | `string` | `null` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | <pre>{<br>  "Owner": "Batcave"<br>}</pre> | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `any` | n/a | yes |
-| <a name="input_worker_security_group_id"></a> [worker\_security\_group\_id](#input\_worker\_security\_group\_id) | n/a | `any` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
+| <a name="input_worker_security_group_id"></a> [worker\_security\_group\_id](#input\_worker\_security\_group\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
