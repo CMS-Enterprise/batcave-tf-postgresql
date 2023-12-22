@@ -1,6 +1,11 @@
-variable "name" {}
+variable "name" {
+  description = "The name of the RDS cluster"
+  type        = string
+}
 variable "engine_version" {
-  default = "14"
+  description = "The engine version to use"
+  type        = string
+  default     = "14"
 }
 
 variable "auto_minor_version_upgrade" {
@@ -8,7 +13,9 @@ variable "auto_minor_version_upgrade" {
   default = true
 }
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
 variable "subnets" {
   type = list(string)
@@ -23,8 +30,12 @@ variable "security_group_allowed_cidrs" {
   default = []
 }
 
-variable "master_username" {}
-variable "database_name" {}
+variable "master_username" {
+  type = string
+}
+variable "database_name" {
+  type = string
+}
 
 variable "tags" {
   type = map(string)
@@ -35,18 +46,27 @@ variable "tags" {
 
 variable "route53_zone_id" {
   default = ""
+  type    = string
 }
 variable "route53_zone_base_domain" {
   description = "If route53_zone_id is an empty string, this variable is used to lookup the r53 zone dynamicaly"
   default     = ""
+  type        = string
 }
 
 variable "route53_record_name" {
+  type = string
 }
 
-variable "worker_security_group_id" {}
-variable "cluster_security_group_id" {}
-variable "cluster_primary_security_group_id" {}
+variable "worker_security_group_id" {
+  type = string
+}
+variable "cluster_security_group_id" {
+  type = string
+}
+variable "cluster_primary_security_group_id" {
+  type = string
+}
 
 variable "db_parameter_group_parameters" {
   type = list(map(string))
@@ -88,11 +108,13 @@ variable "db_cluster_parameter_group_parameters" {
 variable "instance_class" {
   default     = "db.r5.xlarge"
   description = "Instance classes for instances created under the cluster"
+  type        = string
 }
 
 variable "instance_count" {
   default     = 1
   description = "How many instances to create under the cluster"
+  type        = number
 }
 
 variable "subnet_group_name" {
@@ -114,20 +136,6 @@ variable "instance_identifier_pseudoprefix" {
 variable "deletion_protection" {
   type    = bool
   default = false
-}
-
-variable "maintenance_window" {
-  type    = string
-  default = "mon:05:00-mon:06:00"
-}
-
-variable "database_users" {
-  description = "A list of maps with user_name and secrets_manager_name to trigger the creation of aws secretsmanager secrets"
-  type = list(object({
-    user_name            = string
-    secrets_manager_name = string
-  }))
-  default = []
 }
 
 variable "create_random_password" {

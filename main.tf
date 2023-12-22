@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.61.0"
+    }
+  }
+  required_version = ">= 1.2"
+}
+
 locals {
   engine_version_short = split(".", var.engine_version)[0]
 }
@@ -97,7 +107,7 @@ resource "aws_route53_record" "www" {
   name    = var.route53_record_name
   type    = "CNAME"
   ttl     = "60"
-  records = ["${module.aurora.cluster_endpoint}"]
+  records = [module.aurora.cluster_endpoint]
 }
 
 
