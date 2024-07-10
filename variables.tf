@@ -54,19 +54,23 @@ variable "tags" {
 //   type        = string
 // }
 
-// variable "route53_record_name" {
-//   type = string
-// }
+variable "route53_record_name" {
+  type = string
+  default = null
+}
 
-// variable "worker_security_group_id" {
-//   type = string
-// }
-// variable "cluster_security_group_id" {
-//   type = string
-// }
-// variable "cluster_primary_security_group_id" {
-//   type = string
-// }
+variable "worker_security_group_id" {
+  type = string
+  default = null
+}
+variable "cluster_security_group_id" {
+  type = string
+  default = null
+}
+variable "cluster_primary_security_group_id" {
+  type = string
+  default = null
+}
 
 variable "db_parameter_group_parameters" {
   type = list(map(string))
@@ -165,4 +169,17 @@ variable "ca_cert_identifier" {
   description = "Specifies the identifier of the CA certificate for the DB instance"
   type        = string
   default     = "rds-ca-rsa2048-g1"
+}
+
+variable "security_group_egress_rules_cidr_blocks" {
+  description = "egress cidr blocks"
+  type        = list(any)
+  default     = ["0.0.0.0/0"]
+
+}
+
+variable "security_group_egress_rules_cidr_blocks_description" {
+  description = "egress cidr blocks description"
+  type        = string
+  default     = "Egress to Internet"
 }

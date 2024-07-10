@@ -47,8 +47,8 @@ module "aurora" {
   allowed_cidr_blocks     = var.security_group_allowed_cidrs
   security_group_egress_rules = {
     to_cidrs = {
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Egress to Internet"
+      cidr_blocks = var.security_group_egress_rules_cidr_blocks
+      description = var.security_group_egress_rules_cidr_blocks_description
     }
   }
 
