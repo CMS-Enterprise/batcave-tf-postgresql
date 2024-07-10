@@ -44,29 +44,29 @@ variable "tags" {
   }
 }
 
-variable "route53_zone_id" {
-  default = ""
-  type    = string
-}
-variable "route53_zone_base_domain" {
-  description = "If route53_zone_id is an empty string, this variable is used to lookup the r53 zone dynamicaly"
-  default     = ""
-  type        = string
-}
+// variable "route53_zone_id" {
+//   default = ""
+//   type    = string
+// }
+// variable "route53_zone_base_domain" {
+//   description = "If route53_zone_id is an empty string, this variable is used to lookup the r53 zone dynamicaly"
+//   default     = ""
+//   type        = string
+// }
 
-variable "route53_record_name" {
-  type = string
-}
+// variable "route53_record_name" {
+//   type = string
+// }
 
-variable "worker_security_group_id" {
-  type = string
-}
-variable "cluster_security_group_id" {
-  type = string
-}
-variable "cluster_primary_security_group_id" {
-  type = string
-}
+// variable "worker_security_group_id" {
+//   type = string
+// }
+// variable "cluster_security_group_id" {
+//   type = string
+// }
+// variable "cluster_primary_security_group_id" {
+//   type = string
+// }
 
 variable "db_parameter_group_parameters" {
   type = list(map(string))

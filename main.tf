@@ -97,19 +97,19 @@ resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
   tags = var.tags
 }
 
-data "aws_route53_zone" "cms_zone" {
-  count        = var.route53_zone_base_domain != "" ? 1 : 0
-  name         = var.route53_zone_base_domain
-  private_zone = true
-}
+// data "aws_route53_zone" "cms_zone" {
+//   count        = var.route53_zone_base_domain != "" ? 1 : 0
+//   name         = var.route53_zone_base_domain
+//   private_zone = true
+// }
 
-resource "aws_route53_record" "www" {
-  zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id, ""))
-  name    = var.route53_record_name
-  type    = "CNAME"
-  ttl     = "60"
-  records = [module.aurora.cluster_endpoint]
-}
+// resource "aws_route53_record" "www" {
+//   zone_id = coalesce(var.route53_zone_id, try(data.aws_route53_zone.cms_zone[0].zone_id, ""))
+//   name    = var.route53_record_name
+//   type    = "CNAME"
+//   ttl     = "60"
+//   records = [module.aurora.cluster_endpoint]
+// }
 
 
 # postgres egress rule for cluster_security_group

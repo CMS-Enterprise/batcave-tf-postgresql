@@ -63,10 +63,10 @@ output "cluster_master_username" {
   sensitive   = true
 }
 
-output "cluster_hosted_zone_id" {
-  description = "The Route53 Hosted Zone ID of the endpoint"
-  value       = module.aurora.cluster_hosted_zone_id
-}
+// output "cluster_hosted_zone_id" {
+//   description = "The Route53 Hosted Zone ID of the endpoint"
+//   value       = module.aurora.cluster_hosted_zone_id
+// }
 
 # aws_rds_cluster_instances
 output "cluster_instances" {
