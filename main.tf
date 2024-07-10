@@ -42,7 +42,7 @@ module "aurora" {
   subnets                 = var.subnets
   create_db_subnet_group  = var.create_db_subnet_group 
   db_subnet_group_name    = var.subnet_group_name
-  create_security_group   = var.create_security_group 
+  create_security_group   = true 
   allowed_security_groups = var.allowed_security_groups
   allowed_cidr_blocks     = var.security_group_allowed_cidrs
   security_group_egress_rules = {
@@ -112,35 +112,35 @@ resource "aws_rds_cluster_parameter_group" "db_cluster_parameter_group" {
 // }
 
 
-# postgres egress rule for cluster_security_group
-resource "aws_security_group_rule" "db-egress-cluster_security_group" {
-  type                     = "egress"
-  description              = "postgres traffic"
-  from_port                = 0
-  to_port                  = 0
-  protocol                 = "-1"
-  source_security_group_id = module.aurora.security_group_id
-  security_group_id        = var.cluster_security_group_id
-}
+// # postgres egress rule for cluster_security_group
+// resource "aws_security_group_rule" "db-egress-cluster_security_group" {
+//   type                     = "egress"
+//   description              = "postgres traffic"
+//   from_port                = 0
+//   to_port                  = 0
+//   protocol                 = "-1"
+//   source_security_group_id = module.aurora.security_group_id
+//   security_group_id        = var.cluster_security_group_id
+// }
 
-# postgres egress rule for worker_security_group
-resource "aws_security_group_rule" "db-egress-worker_security_group" {
-  type                     = "egress"
-  description              = "postgres traffic"
-  from_port                = 0
-  to_port                  = 0
-  protocol                 = "-1"
-  source_security_group_id = module.aurora.security_group_id
-  security_group_id        = var.worker_security_group_id
-}
+// # postgres egress rule for worker_security_group
+// resource "aws_security_group_rule" "db-egress-worker_security_group" {
+//   type                     = "egress"
+//   description              = "postgres traffic"
+//   from_port                = 0
+//   to_port                  = 0
+//   protocol                 = "-1"
+//   source_security_group_id = module.aurora.security_group_id
+//   security_group_id        = var.worker_security_group_id
+// }
 
-# postgres egress rule for cluster_primary_security_group
-resource "aws_security_group_rule" "db-egress-cluster_primary_security_group" {
-  type                     = "egress"
-  description              = "postgres traffic"
-  from_port                = 0
-  to_port                  = 0
-  protocol                 = "-1"
-  source_security_group_id = module.aurora.security_group_id
-  security_group_id        = var.cluster_primary_security_group_id
-}
+// # postgres egress rule for cluster_primary_security_group
+// resource "aws_security_group_rule" "db-egress-cluster_primary_security_group" {
+//   type                     = "egress"
+//   description              = "postgres traffic"
+//   from_port                = 0
+//   to_port                  = 0
+//   protocol                 = "-1"
+//   source_security_group_id = module.aurora.security_group_id
+//   security_group_id        = var.cluster_primary_security_group_id
+// }
