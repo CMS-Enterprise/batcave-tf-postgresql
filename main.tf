@@ -58,7 +58,7 @@ module "aurora" {
   database_name                       = var.database_name
   backup_retention_period             = var.backup_retention_period
 
-  apply_immediately   = var.apply_immediately
+  apply_immediately   = "false"
   skip_final_snapshot = var.skip_final_snapshot
   snapshot_identifier = var.snapshot_identifier
 
