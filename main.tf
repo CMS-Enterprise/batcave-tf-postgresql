@@ -40,9 +40,9 @@ module "aurora" {
 
   vpc_id                  = var.vpc_id
   subnets                 = var.subnets
-  create_db_subnet_group  = true
+  create_db_subnet_group  = var.create_db_subnet_group 
   db_subnet_group_name    = var.subnet_group_name
-  create_security_group   = true
+  create_security_group   = var.create_security_group 
   allowed_security_groups = var.allowed_security_groups
   allowed_cidr_blocks     = var.security_group_allowed_cidrs
   security_group_egress_rules = {
@@ -58,7 +58,7 @@ module "aurora" {
   database_name                       = var.database_name
   backup_retention_period             = var.backup_retention_period
 
-  apply_immediately   = true
+  apply_immediately   = var.apply_immediately
   skip_final_snapshot = var.skip_final_snapshot
   snapshot_identifier = var.snapshot_identifier
 
