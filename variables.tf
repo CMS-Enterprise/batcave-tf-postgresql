@@ -183,3 +183,8 @@ variable "security_group_egress_rules_cidr_blocks_description" {
   type        = string
   default     = "Egress to Internet"
 }
+
+variable "create_security_group" {
+  type    = bool
+  default = true
+}
