@@ -40,7 +40,7 @@ module "aurora" {
 
   vpc_id                  = var.vpc_id
   subnets                 = var.subnets
-  create_db_subnet_group  = var.create_db_subnet_group
+  create_db_subnet_group  = true
   db_subnet_group_name    = var.subnet_group_name
   create_security_group   = true
   allowed_security_groups = var.allowed_security_groups
